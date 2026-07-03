@@ -37,8 +37,9 @@ for (const f of assets) {
 
   if (extname(f) === '.html') {
     // Production build: strip console.log/warn/error to reduce info leak
+    // Uses greedy .* with backtracking to handle nested parens (e.g. find(s => s.id === x)?.title)
     let content = readFileSync(src, 'utf-8');
-    content = content.replace(/console\.(log|warn|error|debug|info)\s*\([^)]*\);?/g, '/* console stripped for production */');
+    content = content.replace(/console\.(log|warn|error|debug|info)\s*\(.*\)\s*;?/g, '/* console stripped for production */;');
     writeFileSync(dest, content, 'utf-8');
   } else {
     copyFileSync(src, dest);
