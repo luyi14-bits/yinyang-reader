@@ -1,132 +1,106 @@
+<div align="center">
+
 # 阴阳先生手记
 
-> 志怪恐怖短篇集 · 民间道教 · 故事会风格  
-> 每篇 5 分钟读完 · 手机摸鱼专用
+[![license](https://img.shields.io/badge/license-AGPL--3.0-blue.svg)](LICENSE)
+[![version](https://img.shields.io/github/v/release/luyi14-bits/yinyang-reader)](https://github.com/luyi14-bits/yinyang-reader/releases)
+[![pages](https://img.shields.io/badge/Pages-live-brightgreen)](https://luyi14-bits.github.io/yinyang-reader/)
+[![stories](https://img.shields.io/badge/stories-20-8A2BE2)](stories/INDEX.md)
+
+志怪恐怖短篇集 · 故事会风格 · 每篇 5 分钟读完
+
+→ **[在线阅读](https://luyi14-bits.github.io/yinyang-reader/)** ←
+
+</div>
 
 ---
 
-<table>
-<tr>
-<td width="50%">
+## 是什么
 
-### 📖 在线阅读
-</td>
-<td width="50%">
+《阴阳先生手记》是一部原创志怪恐怖短篇合集。每篇独立成章，500–2000 字，手机翻两页的量——专为上班摸鱼、通勤路上、睡前刷手机的场景设计。
 
-### 📊 项目状态
-</td>
-</tr>
-<tr>
-<td>
+写作上追求三件事：
 
-**→ [打开阅读器](reader.html)** ←  
-手机直接打开，暗色模式，滑动翻篇
-
-PWA 支持：可添加到主屏幕离线阅读
-</td>
-<td>
-
-📚 **20 篇** · ~22,000 字  
-📦 v0.3.0 · 📅 2026-07-03  
-🔨 开发中 · ✅ 验收中 · 📝 规划中
-</td>
-</tr>
-</table>
+- **有活人感**：白话口语，不堆形容词，像老辈人给你讲故事
+- **有逻辑感**：前因后果严丝合缝，结尾让你翻回去重看
+- **有真实感**：民俗细节查证过，不是瞎编的
 
 ---
 
-## 📇 故事列表（按题材）
+## 快速上手
 
-| # | 篇名 | 题材 | 梗概 |
-|---|------|------|------|
-| 001 | [纸人](stories/001-纸人.md) | 夜路遇祟 | 正月十五走夜路，桥头坐着个百年纸人 |
-| 002 | [夜行客](stories/002-夜行客.md) | 赶尸 | 赶尸穿村，女人认出死人的手——但手指是齐全的 |
-| 003 | [十三号乘客](stories/003-十三号乘客.md) | 末班车 | 每月十五号上的那个人，四年前就死了 |
-| 004 | [纸活](stories/004-纸活.md) | 扎纸匠 | 她说轿子烧给自己。三天后轿子自己回来了 |
-| 005 | [七楼](stories/005-七楼.md) | 电梯 | 夜里电梯自己上下，轿厢里有双脚印 |
-| 006 | [合租室友](stories/006-合租室友.md) | 出租屋 | 合租屋里多了一个人，住在墙里面 |
-| 007 | [凌晨两点](stories/007-凌晨两点.md) | 便利店 | 每天凌晨准时进门的客人，监控拍不到 |
-| 008 | [别回头](stories/008-别回头.md) | 喊魂 | 夜路上听见有人叫你——数三秒，别回头 |
-| 009 | [堂口](stories/009-堂口.md) | 出马 | 舅舅走了，仙家不走。红布包里包着手指 |
-| 010 | [对门](stories/010-对门.md) | 居民楼 | 501 住了八年没人，门缝里有一只手 |
-| 011 | [压岁钱](stories/011-压岁钱.md) | 出租车 | 乘客没有脸。他给的钞票印着死人的名字 |
-| 012 | [十三号病床](stories/012-十三号病床.md) | 医院 | 凌晨两点，十三号床的帘子自己拉上了 |
-| 013 | [红砖楼](stories/013-红砖楼.md) | 拆迁区 | 拆了一半的楼里有人，我进去了 |
-| 014 | [最后一个](stories/014-最后一个.md) | 学校 | 老厕所最后一个蹲位，冲水冲出血来 |
-| 015 | [你身后](stories/015-你身后.md) | 老宅 | 奶奶临走前问我：你身后站的那个人是谁？ |
-| 016 | [称骨](stories/016-称骨.md) | 算命 | 瞎子说，你有个没出生的哥哥，站你右边 |
-| 017 | [门槛](stories/017-门槛.md) | 老宅 | 门槛锯断以后，每天半夜有东西跨进来 |
-| 018 | [地基](stories/018-地基.md) | 工地 | 挖地基刨出棺材，干尸嘴巴张了一百年 |
-| 019 | [镜子](stories/019-镜子.md) | 宾馆 | 镜子里坐着的人，跟躺着的不是同一个 |
-| 020 | [邻居](stories/020-邻居.md) | 居民楼 | 天花板里的弹珠声不是弹珠 |
-
-→ **[按题材筛选完整索引](stories/INDEX.md)**
+| 方式 | 说明 |
+|------|------|
+| **📱 在线阅读** | [luyi14-bits.github.io/yinyang-reader](https://luyi14-bits.github.io/yinyang-reader/) |
+| **📖 本地打开** | 直接双击项目根目录的 `reader.html` |
+| **🛠 构建运行** | `npm run build && npx serve dist/` |
 
 ---
 
-## 🧱 项目结构
+## 故事列表
+
+| # | 篇名 | 题材 | — | # | 篇名 | 题材 |
+|---|------|------|—|---|------|------|
+| 001 | [纸人](stories/001-纸人.md) | 夜路遇祟 | | 011 | [压岁钱](stories/011-压岁钱.md) | 出租车 |
+| 002 | [夜行客](stories/002-夜行客.md) | 赶尸 | | 012 | [十三号病床](stories/012-十三号病床.md) | 医院 |
+| 003 | [十三号乘客](stories/003-十三号乘客.md) | 末班车 | | 013 | [红砖楼](stories/013-红砖楼.md) | 拆迁区 |
+| 004 | [纸活](stories/004-纸活.md) | 扎纸匠 | | 014 | [最后一个](stories/014-最后一个.md) | 学校 |
+| 005 | [七楼](stories/005-七楼.md) | 电梯 | | 015 | [你身后](stories/015-你身后.md) | 老宅 |
+| 006 | [合租室友](stories/006-合租室友.md) | 出租屋 | | 016 | [称骨](stories/016-称骨.md) | 算命 |
+| 007 | [凌晨两点](stories/007-凌晨两点.md) | 便利店 | | 017 | [门槛](stories/017-门槛.md) | 老宅 |
+| 008 | [别回头](stories/008-别回头.md) | 喊魂 | | 018 | [地基](stories/018-地基.md) | 工地 |
+| 009 | [堂口](stories/009-堂口.md) | 出马 | | 019 | [镜子](stories/019-镜子.md) | 宾馆 |
+| 010 | [对门](stories/010-对门.md) | 居民楼 | | 020 | [邻居](stories/020-邻居.md) | 居民楼 |
+
+完整索引请见 [`stories/INDEX.md`](stories/INDEX.md)（含按题材分类）
+
+---
+
+## 项目结构
 
 ```
-阴阳先生手记/
-├── stories/               📖 故事正文（20 篇 MD + JSON 数据）
-├── docs/                  📋 文档（PRD / 简报 / 写法规范）
-├── dist/                  🏗️ 构建输出
-├── reader.html            📱 手机在线阅读器（主入口）
-├── manifest.json/sw.js    ⚡ PWA 离线支持
-├── .trae/specs/           📐 工程 Spec（3 个）
-├── .trae/skills/          🛠️ 写手 Skill
-├── README / LICENSE / CONTRIBUTING / CHANGELOG / …
-└── .gitignore
+yinyang-reader/
+├── stories/              # 📖 故事正文（MD + JSON）
+├── reader.html           # 📱 在线阅读器（单页应用）
+├── sw.js                 # ⚡ Service Worker（离线缓存）
+├── manifest.json         # 📲 PWA 安装清单
+├── scripts/build.mjs     # 🏗️ 构建脚本
+├── dist/                 # 📦 构建输出（npm run build）
+├── docs/                 # 📋 文档（PRD / 写法规范 / 简报）
+├── .trae/                # 🛠️ 工程 artifact
+│   ├── specs/            #   Spec 与管线看板
+│   └── skills/           #   写手 Skill
+└── .github/              # 🤝 社区规范（Issue/PR 模板 + CI）
 ```
 
 ---
 
-## 🎯 风格说明
+## 写作风格
 
-每篇都遵循这些规则：
+如果你的目标是写一篇"让同事帮忙看一眼结果把手机抢过去读完了"的短篇——这个 Skill 能帮上忙：
 
-| 要点 | 说明 |
+→ **[luyi14-horror-story-writer](.trae/skills/luyi14-horror-story-writer/SKILL.md)**
+
+它内化了以下规则：
+
+| 规则 | 说明 |
 |------|------|
 | 开局即高能 | 第一句话钩住你，前三段进入恐怖 |
-| 口语化叙事 | 像老辈人讲故事，不堆形容词 |
-| 真实感 | 民俗细节有根有据，不是瞎编 |
-| 逻辑恐怖 | 前因后果严丝合缝，结尾让你倒吸一口气 |
-| 短平快 | 每篇 5 分钟，手机翻两页 |
-
-写作标准详见 [`docs/writing-guide.md`](docs/writing-guide.md)  
-写手 Skill：[`luyi14-horror-story-writer`](.trae/skills/luyi14-horror-story-writer/SKILL.md)
+| 口语化 | 像在酒桌上讲故事，不是写作文 |
+| 不抒情不议论 | 删掉所有"我感到""我明白" |
+| 真实感 | 每篇至少一个查证过的真实民俗细节 |
+| 结尾留白 | 不解释、不总结、不升华 |
 
 ---
 
-## 🚦 管线状态
+## 贡献
 
-| 状态 | 项目 | 进度 |
-|------|------|------|
-| 🔨 开发中 | **feat-core-reader**: 随机推荐 + 题材筛选 + 阅读埋点 | 30% |
-| ✅ 验收中 | **feat-pwa-support**: PWA 离线安装 + 构建脚本 | 100%·待终验 |
-| 📝 规划中 | **feat-sneak-mode**: Outlook 伪装模式 | 0%·待排期 |
-
-📋 完整管线看板 → [`README.md` 管线章节](.trae/specs/README.md)
+详见 [CONTRIBUTING.md](CONTRIBUTING.md) 与 [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)。
 
 ---
 
-## 📋 标准文件
+## 协议
 
-✅ README · ✅ LICENSE · ✅ CONTRIBUTING  
-✅ CODE_OF_CONDUCT · ✅ SECURITY · ✅ CHANGELOG  
-✅ .gitignore · ⬜ CLA（暂缺）
+[AGPL-3.0](LICENSE) © 2026 阴阳先生手记
 
----
-
-## ⏭️ 接下来
-
-- 继续产出新故事（目标 30+ 篇）
-- 完成随机推荐核心体验（feat-core-reader）
-- Outlook 伪装摸鱼模式（feat-sneak-mode）
-- QA 终验后发布 v0.4.0
-
----
-
-*—— 摸鱼快乐 🎉  
-SPDX-FileCopyrightText: 2026 阴阳先生手记  
-SPDX-License-Identifier: AGPL-3.0-only*
+所有故事内容与程序代码均以 AGPL-3.0 许可发布。
