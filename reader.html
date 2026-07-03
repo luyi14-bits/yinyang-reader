@@ -7,6 +7,8 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'none';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>阴阳先生手记</title>
 <meta name="theme-color" content="#1a1614">
@@ -1128,12 +1130,15 @@ async function openStoryById(storyId) {
   document.getElementById('readerMeta').textContent = story.category + ' · ' + story.wordCount + '字';
 
   const content = document.getElementById('storyContent');
-  content.innerHTML = story.content.map(p => {
+  content.replaceChildren();
+  story.content.forEach(p => {
+    const el = document.createElement('p');
+    el.textContent = p;
     const hasDialogue = /[「」""]/.test(p);
-    const cls = hasDialogue ? 'dialogue' : '';
-    const noIndent = p.length < 8;
-    return '<p class="' + cls + (noIndent ? ' no-indent' : '') + '">' + p + '</p>';
-  }).join('');
+    if (hasDialogue) el.className = 'dialogue';
+    if (p.length < 8) el.classList.add('no-indent');
+    content.appendChild(el);
+  });
 
   updateTagBarSelection();
 
@@ -1184,11 +1189,21 @@ function nextStory() {
 // ═══════════════ TAG BAR ═══════════════
 function buildTagBar() {
   const bar = document.getElementById('tagBar');
-  let html = '<button class="tag-btn active-all" data-category="" onclick="filterByCategory(\'\')">全部</button>';
+  bar.replaceChildren();
+  const allBtn = document.createElement('button');
+  allBtn.className = 'tag-btn active-all';
+  allBtn.setAttribute('data-category', '');
+  allBtn.onclick = function() { filterByCategory(''); };
+  allBtn.textContent = '全部';
+  bar.appendChild(allBtn);
   allCategories.forEach(cat => {
-    html += '<button class="tag-btn" data-category="' + cat + '" onclick="filterByCategory(\'' + cat + '\')">' + cat + '</button>';
+    const btn = document.createElement('button');
+    btn.className = 'tag-btn';
+    btn.setAttribute('data-category', cat);
+    btn.textContent = cat;
+    btn.onclick = function() { filterByCategory(cat); };
+    bar.appendChild(btn);
   });
-  bar.innerHTML = html;
 }
 
 function updateTagBarSelection() {
@@ -1222,18 +1237,40 @@ function buildLibrary() {
   const totalWords = allStories.reduce((sum, s) => sum + s.wordCount, 0);
   document.getElementById('totalWords').textContent = totalWords.toLocaleString();
 
-  list.innerHTML = allStories.map(s => {
-    const idx = allStories.findIndex(x => x.id === s.id);
-    return '<div class="story-card" onclick="openStoryById(' + s.id + ')">' +
-      '<div class="card-num">第' + String(idx + 1).padStart(2, '0') + '则</div>' +
-      '<div class="card-title">' + s.title + '</div>' +
-      '<div class="card-meta">' +
-        '<span class="card-tag">' + s.category + '</span>' +
-        '<span>' + s.wordCount + '字</span>' +
-      '</div>' +
-      '<span class="card-arrow">→</span>' +
-    '</div>';
-  }).join('');
+  list.replaceChildren();
+  allStories.forEach((s, i) => {
+    const card = document.createElement('div');
+    card.className = 'story-card';
+    card.onclick = function() { openStoryById(s.id); };
+
+    const num = document.createElement('div');
+    num.className = 'card-num';
+    num.textContent = '第' + String(i + 1).padStart(2, '0') + '则';
+
+    const title = document.createElement('div');
+    title.className = 'card-title';
+    title.textContent = s.title;
+
+    const meta = document.createElement('div');
+    meta.className = 'card-meta';
+    const tag = document.createElement('span');
+    tag.className = 'card-tag';
+    tag.textContent = s.category;
+    const wc = document.createElement('span');
+    wc.textContent = s.wordCount + '字';
+    meta.appendChild(tag);
+    meta.appendChild(wc);
+
+    const arrow = document.createElement('span');
+    arrow.className = 'card-arrow';
+    arrow.textContent = '→';
+
+    card.appendChild(num);
+    card.appendChild(title);
+    card.appendChild(meta);
+    card.appendChild(arrow);
+    list.appendChild(card);
+  });
 }
 
 function showLibrary() {
@@ -1312,14 +1349,33 @@ function generateMockEmails() {
 
 function buildOutlookNav() {
   const nav = document.getElementById('outlookNav');
-  nav.innerHTML = folders.map(f => {
-    const badgeHtml = f.badge > 0 ? '<span class="nav-badge">' + f.badge + '</span>' : '';
-    return '<div class="nav-item" data-folder="' + f.id + '" onclick="filterByFolder(\'' + f.id + '\')">' +
-      '<span class="nav-icon">' + f.icon + '</span>' +
-      '<span class="nav-label">' + f.label + '</span>' +
-      badgeHtml +
-    '</div>';
-  }).join('');
+  nav.replaceChildren();
+  folders.forEach(f => {
+    const item = document.createElement('div');
+    item.className = 'nav-item';
+    item.setAttribute('data-folder', f.id);
+    item.onclick = function() { filterByFolder(f.id); };
+
+    const icon = document.createElement('span');
+    icon.className = 'nav-icon';
+    icon.textContent = f.icon;
+
+    const label = document.createElement('span');
+    label.className = 'nav-label';
+    label.textContent = f.label;
+
+    item.appendChild(icon);
+    item.appendChild(label);
+
+    if (f.badge > 0) {
+      const badge = document.createElement('span');
+      badge.className = 'nav-badge';
+      badge.textContent = String(f.badge);
+      item.appendChild(badge);
+    }
+
+    nav.appendChild(item);
+  });
   updateNavSelection();
 }
 
@@ -1347,20 +1403,53 @@ function visibleEmails() {
 
 function renderMailList() {
   const list = document.getElementById('outlookList');
+  list.replaceChildren();
   const filtered = visibleEmails();
-  list.innerHTML = filtered.map((email, idx) => {
-    const initial = email.sender.charAt(0);
-    const selected = idx === selectedEmailIndex ? ' selected' : '';
-    const unreadCls = !email.read ? ' unread' : '';
-    return '<div class="email-item' + selected + '" data-index="' + idx + '" onclick="selectEmail(' + idx + ')">' +
-      (email.isNew ? '<div class="unread-dot"></div>' : '<div style="width:8px;flex-shrink:0;"></div>') +
-      '<div class="email-avatar">' + initial + '</div>' +
-      '<div class="email-body">' +
-        '<div class="email-sender"><span>' + email.sender + '</span><span class="email-time">' + email.time + '</span></div>' +
-        '<div class="email-subject' + unreadCls + '">' + email.subject + '</div>' +
-      '</div>' +
-    '</div>';
-  }).join('');
+  filtered.forEach((email, idx) => {
+    const item = document.createElement('div');
+    item.className = 'email-item' + (idx === selectedEmailIndex ? ' selected' : '');
+    item.setAttribute('data-index', String(idx));
+    item.onclick = function() { selectEmail(idx); };
+
+    // unread dot or spacer
+    if (email.isNew) {
+      const dot = document.createElement('div');
+      dot.className = 'unread-dot';
+      item.appendChild(dot);
+    } else {
+      const spacer = document.createElement('div');
+      spacer.style.cssText = 'width:8px;flex-shrink:0;';
+      item.appendChild(spacer);
+    }
+
+    const avatar = document.createElement('div');
+    avatar.className = 'email-avatar';
+    avatar.textContent = email.sender.charAt(0);
+
+    const body = document.createElement('div');
+    body.className = 'email-body';
+
+    const senderRow = document.createElement('div');
+    senderRow.className = 'email-sender';
+    const senderName = document.createElement('span');
+    senderName.textContent = email.sender;
+    const senderTime = document.createElement('span');
+    senderTime.className = 'email-time';
+    senderTime.textContent = email.time;
+    senderRow.appendChild(senderName);
+    senderRow.appendChild(senderTime);
+
+    const subject = document.createElement('div');
+    subject.className = 'email-subject' + (!email.read ? ' unread' : '');
+    subject.textContent = email.subject;
+
+    body.appendChild(senderRow);
+    body.appendChild(subject);
+
+    item.appendChild(avatar);
+    item.appendChild(body);
+    list.appendChild(item);
+  });
 }
 
 function selectEmail(index) {
@@ -1542,7 +1631,20 @@ document.addEventListener('visibilitychange', () => {
   var installBanner = document.createElement('div');
   installBanner.id = 'pwaInstallBanner';
   installBanner.style.cssText = 'display:none;position:fixed;bottom:16px;left:16px;right:16px;background:#2d2824;color:#d4c5a9;padding:14px 16px;border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14px;border:1px solid #3a3530;max-width:480px;margin:0 auto;';
-  installBanner.innerHTML = '<span style="flex:1"><strong style="color:#c43a31">📱 阴阳先生手记</strong><br><span style="font-size:12px;color:#8a8070">安装到桌面，摸鱼更方便</span></span><button id="pwaInstallBtn" style="background:#c43a31;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap">安装</button><button id="pwaDismissBtn" style="background:none;color:#8a8070;border:none;font-size:18px;cursor:pointer;padding:0 4px;line-height:1">✕</button>';
+  var bannerText = document.createElement('span');
+  bannerText.style.cssText = 'flex:1';
+  bannerText.innerHTML = '<strong style="color:#c43a31">📱 阴阳先生手记</strong><br><span style="font-size:12px;color:#8a8070">安装到桌面，摸鱼更方便</span>';
+  var installBtn = document.createElement('button');
+  installBtn.id = 'pwaInstallBtn';
+  installBtn.style.cssText = 'background:#c43a31;color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap';
+  installBtn.textContent = '安装';
+  var dismissBtn = document.createElement('button');
+  dismissBtn.id = 'pwaDismissBtn';
+  dismissBtn.style.cssText = 'background:none;color:#8a8070;border:none;font-size:18px;cursor:pointer;padding:0 4px;line-height:1';
+  dismissBtn.textContent = '✕';
+  installBanner.appendChild(bannerText);
+  installBanner.appendChild(installBtn);
+  installBanner.appendChild(dismissBtn);
   document.body.appendChild(installBanner);
 
   window.addEventListener('beforeinstallprompt', function (e) {

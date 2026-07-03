@@ -20,7 +20,8 @@ self.addEventListener('install', function (event) {
       });
     })
   );
-  self.skipWaiting();
+  // self.skipWaiting() 已移除 — 保留默认行为，等待所有标签页关闭后再激活新版 SW
+  // 允许用户在 SW 异常时通过关闭标签页回滚
 });
 
 self.addEventListener('activate', function (event) {

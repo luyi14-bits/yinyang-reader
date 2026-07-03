@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // This file is part of the 阴阳先生手记 project.
 
-import { copyFileSync, mkdirSync, readdirSync, existsSync } from 'fs';
-import { join, dirname } from 'path';
+import { copyFileSync, mkdirSync, readdirSync, existsSync, readFileSync, writeFileSync } from 'fs';
+import { join, dirname, extname } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -34,7 +34,15 @@ for (const f of assets) {
     console.warn('[WARN] Missing:', f);
     continue;
   }
-  copyFileSync(src, dest);
+
+  if (extname(f) === '.html') {
+    // Production build: strip console.log/warn/error to reduce info leak
+    let content = readFileSync(src, 'utf-8');
+    content = content.replace(/console\.(log|warn|error|debug|info)\s*\([^)]*\);?/g, '/* console stripped for production */');
+    writeFileSync(dest, content, 'utf-8');
+  } else {
+    copyFileSync(src, dest);
+  }
   console.log('  ✓', f);
 }
 

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔐 阴阳先生手记 — 安全深度审查报告 v0.3.0</title>
+<style>
+  :root {
+    --critical: #e74c3c;
+    --high: #e67e22;
+    --medium: #f1c40f;
+    --low: #3498db;
+    --pass: #2ecc71;
+    --bg: #0d1117;
+    --bg2: #161b22;
+    --border: #30363d;
+    --text: #c9d1d9;
+    --text2: #8b949e;
+    --accent: #58a6ff;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.7; padding:32px 16px; }
+  .container { max-width:900px; margin:0 auto; }
+  h1 { font-size:28px; border-bottom:1px solid var(--border); padding-bottom:16px; margin-bottom:8px; }
+  h1 span { color:var(--text2); font-size:16px; font-weight:400; }
+  h2 { font-size:20px; margin:32px 0 12px; padding-bottom:8px; border-bottom:1px solid var(--border); }
+  h3 { font-size:16px; margin:16px 0 8px; color:var(--accent); }
+  p { margin:8px 0; }
+  .meta { color:var(--text2); font-size:14px; margin-bottom:24px; }
+  .badge { display:inline-block; padding:2px 10px; border-radius:12px; font-size:12px; font-weight:600; color:#fff; }
+  .badge-crit { background:var(--critical); }
+  .badge-high { background:var(--high); }
+  .badge-med  { background:var(--medium); color:#333; }
+  .badge-low  { background:var(--low); }
+  .badge-pass { background:var(--pass); }
+  
+  .score-circle { width:100px; height:100px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:36px; font-weight:700; margin:20px auto; border:4px solid; }
+  .score-c { border-color:var(--high); color:var(--high); }
+
+  .finding { background:var(--bg2); border:1px solid var(--border); border-radius:8px; padding:16px 20px; margin:12px 0; border-left:4px solid; }
+  .finding.critical { border-left-color:var(--critical); }
+  .finding.high     { border-left-color:var(--high); }
+  .finding.medium   { border-left-color:var(--medium); }
+  .finding.low      { border-left-color:var(--low); }
+  .finding .sev { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; display:block; margin-bottom:4px; }
+  .finding.critical .sev { color:var(--critical); }
+  .finding.high     .sev { color:var(--high); }
+  .finding.medium   .sev { color:var(--medium); }
+  .finding.low      .sev { color:var(--low); }
+
+  .finding .title { font-size:16px; font-weight:700; }
+  .finding .loc { font-size:12px; color:var(--text2); margin:4px 0; }
+  .finding .desc { margin:8px 0; }
+  .finding .fix { background:#0d1117; border:1px solid var(--border); border-radius:6px; padding:12px 16px; margin:8px 0; font-family:'SFMono-Regular',Consolas,monospace; font-size:13px; white-space:pre-wrap; color:var(--accent); }
+  
+  table { width:100%; border-collapse:collapse; margin:12px 0; }
+  th, td { padding:8px 12px; border:1px solid var(--border); text-align:left; font-size:14px; }
+  th { background:var(--bg2); }
+  tr.pass td:last-child, tr.pass td:first-child { color:var(--pass); }
+  tr.fail td:last-child, tr.fail td:first-child { color:var(--critical); }
+  tr.warn td:last-child, tr.warn td:first-child { color:var(--high); }
+  
+  .divider { border:none; border-top:1px solid var(--border); margin:24px 0; }
+  .tag { display:inline-block; background:var(--border); color:var(--text); padding:2px 8px; border-radius:4px; font-size:12px; margin:2px; }
+  
+  @media print { 
+    body { background:#fff; color:#000; padding:0; }
+    .finding { background:#f8f8f8; border-color:#ddd; }
+    .fix { background:#f0f0f0; border-color:#ddd; }
+    .score-circle { border-color:#e67e22; color:#e67e22; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>🔐 安全深度审查报告<br><span>阴阳先生手记 v0.3.0 · 2026-07-03</span></h1>
+<p class="meta">
+  审查范围：全仓库静态代码 + CI/CD 配置 + PWA 架构 · 
+  审查方法：Luyi14-security-academy 三专家矩阵<br>
+  专家匹配：Daniel Miessler（敏感数据/认证）· James Kettle（Web 安全）· Tavis Ormandy（打包/二进制）
+</p>
+
+<!-- ──── OVERVIEW ──── -->
+<div class="score-circle score-c">67</div>
+<p style="text-align:center;font-size:14px;color:var(--text2);">综合安全评分 · C 级 · 存在多个中等风险项</p>
+
+<table>
+  <tr><th>审查维度</th><th>等级</th><th>关键发现</th></tr>
+  <tr class="pass"><td>P0 · 密钥泄露</td><td>✅ PASS</td><td>未发现硬编码密钥 / Token / 凭证</td></tr>
+  <tr class="fail"><td>P1 · 网络边界</td><td>🔴 FAIL</td><td>无 CSP / 无 X-Frame-Options / 无 HSTS</td></tr>
+  <tr class="warn"><td>P2 · 输入输出</td><td>🟡 WARN</td><td>6 处 innerHTML，存在 DOM XSS 攻击面</td></tr>
+  <tr class="warn"><td>P3 · 存储日志</td><td>🟡 WARN</td><td>生产代码 16 条 console.log 泄露内部状态</td></tr>
+  <tr class="pass"><td>P4 · 打包发布</td><td>✅ PASS</td><td>CI/CD 权限最小化，无运行时依赖</td></tr>
+</table>
+
+<!-- ══════════════════════ P0 ══════════════════════ -->
+<hr class="divider">
+
+<h2>P0 — 密钥 / Token 泄露扫描</h2>
+<p><b>专家：Daniel Miessler</b>（OWASP 贡献者 · 专注 API 鉴权 & 敏感数据）</p>
+
+<table>
+  <tr><th>检查项</th><th>结果</th><th>详情</th></tr>
+  <tr class="pass"><td>API Key 硬编码</td><td>✅ 无误</td><td>全仓库 Grep 正则扫描（api_key / token / secret / password / credential / authorization）无命中</td></tr>
+  <tr class="pass"><td>环境变量 / .env</td><td>✅ N/A</td><td>纯静态项目，不使用环境变量或 .env 文件</td></tr>
+  <tr class="pass"><td>localStorage 敏感数据</td><td>✅ 无存储</td><td>仅存储 UI 偏好（主题/摸鱼配置/PWA 关闭标记），无任何认证相关数据</td></tr>
+  <tr class="pass"><td>配置文件泄露</td><td>✅ 无误</td><td>无线上配置文件，仓库不包含任何凭证</td></tr>
+  <tr class="pass"><td>.gitignore 覆盖</td><td>✅ 良好</td><td>已排除 node_modules/ /dist/ / 日志/ 临时文件 / IDE 配置</td></tr>
+</table>
+
+<p><b>✅ P0 结论：通过。</b>项目作为纯静态 PWA，无后端，无认证需求，密钥泄露面天然为零。</p>
+
+<!-- ══════════════════════ P1 ══════════════════════ -->
+<hr class="divider">
+
+<h2>P1 — 网络边界安全</h2>
+<p><b>专家：James Kettle</b>（PortSwigger 研究院院长 · HTTP 协议漏洞挖掘）</p>
+
+<div class="finding critical">
+  <span class="sev">F-01 · CRITICAL</span>
+  <div class="title">无 Content-Security-Policy — 完全缺失</div>
+  <div class="loc">📁 reader.html · index.html · sw.js — 全 HTML 无 CSP meta 标签，GitHub Pages 无 CSP 响应头</div>
+  <div class="desc">
+    当前 HTML 中<b>不存在任何 CSP 声明</b>（既无 <code>&lt;meta http-equiv="Content-Security-Policy"&gt;</code>，GitHub Pages 服务器也不下发此响应头）。
+    这意味着浏览器不会对 inline script / inline style / eval / 外部资源来源做任何限制。
+    如果任何 JSON 数据被投毒或供应链被污染，攻击者可通过 <code>innerHTML</code> + <code>&lt;script&gt;</code> 标签获得完整 JS 执行权限。
+  </div>
+  <div class="fix">&lt;!-- 建议在 &lt;head&gt; 最顶部添加 --&gt;
+&lt;meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  script-src 'self';
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+  font-src 'self' https://fonts.gstatic.com;
+  img-src 'self' data:;
+  connect-src 'self';
+  manifest-src 'self';
+  frame-ancestors 'none';
+  base-uri 'self';
+  form-action 'none';
+"&gt;
+</div>
+</div>
+
+<div class="finding high">
+  <span class="sev">F-02 · HIGH</span>
+  <div class="title">无 X-Frame-Options — 存在 Clickjacking 风险</div>
+  <div class="loc">📁 reader.html · index.html — 无 frame 防御响应头</div>
+  <div class="desc">
+    页面可以被嵌入任意 <code>&lt;iframe&gt;</code>。攻击者可将阅读器嵌入恶意页面，叠加透明层诱导用户操作（如双击触发 Sneak Mode、点击故事链接等）。
+    虽然当前页面无敏感交互，但未来若加入评论、打赏、登录等功能，此漏洞将升级为高危。
+  </div>
+  <div class="fix">&lt;!-- 添加 HTTP 响应头（通过 GitHub Pages 无法直接配置，建议加入 CSP frame-ancestors） --&gt;
+# CSP 方案（推荐 — 已在 F-01 中包含 frame-ancestors 'none'）：
+Content-Security-Policy: frame-ancestors 'none';
+
+# 备选方案：
+X-Frame-Options: DENY</div>
+</div>
+
+<div class="finding high">
+  <span class="sev">F-03 · HIGH</span>
+  <div class="title">无 X-Content-Type-Options — MIME 嗅探风险</div>
+  <div class="loc">📁 全 HTML — 缺失 nosniff 头</div>
+  <div class="desc">
+    浏览器可能对响应进行 MIME 类型猜测。如果 Service Worker 缓存的数据被篡改（如伪造 Content-Type），浏览器可能将 JSON 解释为可执行的 HTML/JS。
+  </div>
+  <div class="fix">&lt;meta http-equiv="X-Content-Type-Options" content="nosniff"&gt;</div>
+</div>
+
+<div class="finding medium">
+  <span class="sev">F-04 · MEDIUM</span>
+  <div class="title">Google Fonts 外部依赖 — 无 integrity 校验，用户 IP 泄露</div>
+  <div class="loc">📁 reader.html:19-21</div>
+  <div class="desc">
+    字体从 <code>fonts.googleapis.com</code> 和 <code>fonts.gstatic.com</code> 加载。
+    <b>(1)</b> <code>&lt;link&gt;</code> 标签无 <code>integrity</code> 属性，字体 CSS 被篡改将直接注入页面上下文。
+    <b>(2)</b> 所有用户访问时 IP 地址会泄露给 Google。
+    项目自身 SECURITY.md 已识别此风险但未修复。
+  </div>
+  <div class="fix"># 推荐方案 1：字体自托管（最佳）
+将 Noto Serif SC 和 Ma Shan Zheng 的 woff2 文件下载到 /fonts/ 目录
+使用 @font-face 本地引用
+
+# 推荐方案 2：添加 integrity（次选 — 但 Google Fonts 动态生成 CSS，不易固定 hash）
+在 CSP 中限制 font-src 和 style-src 为仅允许特定域名</div>
+</div>
+
+<div class="finding low">
+  <span class="sev">F-05 · LOW</span>
+  <div class="title">无 HSTS (Strict-Transport-Security) 头 — 依赖 GitHub Pages</div>
+  <div class="loc">📁 GitHub Pages 部署 — 无自定义 HTTP 头配置能力</div>
+  <div class="desc">
+    GitHub Pages 默认强制 HTTPS 并发送 HSTS，但无法自定义 max-age 或 includeSubDomains。
+    此为 GitHub Pages 平台限制，风险可控。
+  </div>
+</div>
+
+<p><b>🔴 P1 结论：不通过。</b>核心安全头完全缺失。若部署到自建服务器，必须配置。</p>
+
+<!-- ══════════════════════ P2 ══════════════════════ -->
+<hr class="divider">
+
+<h2>P2 — 输入输出审查</h2>
+<p><b>专家：James Kettle</b>（延续 Web 安全视角）</p>
+
+<div class="finding high">
+  <span class="sev">F-06 · HIGH</span>
+  <div class="title">6 处 innerHTML 赋值 — DOM XSS 攻击面</div>
+  <div class="loc">📁 reader.html · L1131, L1191, L1225, L1315, L1351, L1545</div>
+  <div class="desc">
+    <p>项目中有 <b>6 处</b> 使用 <code>innerHTML</code> 将动态数据写入 DOM。虽然当前数据来源为同源的静态 JSON 文件（非用户输入），但若 JSON 文件被供应链攻击替换或 Service Worker 缓存投毒，攻击者可注入恶意 HTML/JS。</p>
+    <p><b>最危险的 4 处：</b></p>
+    <ul style="margin-left:20px;margin-top:8px;">
+      <li><b>L1131:</b> <code>content.innerHTML = story.content.map(p => ...)</code> — 故事正文直接拼接进 HTML</li>
+      <li><b>L1191:</b> <code>bar.innerHTML = html</code> — 分类标签（来自 INDEX.json categories 数组）</li>
+      <li><b>L1225:</b> <code>list.innerHTML = allStories.map(s => ...)</code> — 故事标题 + 分类名 + 字数</li>
+      <li><b>L1351:</b> <code>list.innerHTML = filtered.map(email => ...)</code> — Sneak Mode 邮件数据</li>
+    </ul>
+  </div>
+  <div class="fix">// ❌ 当前（不安全）：
+content.innerHTML = story.content.map(p => '&lt;p&gt;' + p + '&lt;/p&gt;').join('');
+
+// ✅ 修复方案 1 — 使用 textContent 逐元素构建：
+content.innerHTML = '';
+story.content.forEach(p => {
+  const el = document.createElement('p');
+  el.textContent = p;  // textContent 自动转义 HTML
+  content.appendChild(el);
+});
+
+// ✅ 修复方案 2 — 使用 DOMPurify 库（如必须用 innerHTML）：
+content.innerHTML = DOMPurify.sanitize(html);
+
+// ✅ 修复方案 3 — 对动态字符串做 HTML 实体编码：
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+</div>
+</div>
+
+<div class="finding low">
+  <span class="sev">F-07 · LOW</span>
+  <div class="title">story.title 在 library 列表中使用 textContent（安全），但在 story-card 中使用 innerHTML</div>
+  <div class="loc">📁 reader.html · L1125-1128 vs L1225-1236</div>
+  <div class="desc">
+    <code>reader</code> 视图中的标题使用 <code>textContent</code>（安全），但 <code>library</code> 列表使用 <code>innerHTML</code>（不安全）。
+    同一份数据在不同路径上安全性不一致。
+  </div>
+</div>
+
+<div class="finding low">
+  <span class="sev">F-08 · LOW</span>
+  <div class="title">Sneak Mode search input 设置为 readonly 但允许点击解除</div>
+  <div class="loc">📁 reader.html · L932 — <code>onfocus="this.removeAttribute('readonly')"</code></div>
+  <div class="desc">
+    Outlook 模拟搜索框仅用于伪装，不发起真实请求。输入内容不会被处理，无安全风险。但 <code>removeAttribute</code> 为不必要的动态操作。
+  </div>
+</div>
+
+<table>
+  <tr><th>检查项</th><th>结果</th></tr>
+  <tr class="pass"><td>eval() / new Function() 调用</td><td>✅ 未使用</td></tr>
+  <tr class="pass"><td>setTimeout/setInterval 字符串参数</td><td>✅ 未使用</td></tr>
+  <tr class="pass"><td>document.write()</td><td>✅ 未使用</td></tr>
+  <tr class="pass"><td>URL 重定向（location.href/open）</td><td>✅ 仅 SW 更新时 reload()，无外部 URL</td></tr>
+  <tr class="pass"><td>postMessage 接收</td><td>✅ 未使用</td></tr>
+  <tr class="pass"><td>WebSocket</td><td>✅ 未使用</td></tr>
+</table>
+
+<p><b>🟡 P2 结论：警告。</b>innerHTML 在当前威胁模型（纯静态/同源数据/非用户输入）下风险有限，但防御纵深不足。强烈建议替换为 textContent 方案。</p>
+
+<!-- ══════════════════════ P3 ══════════════════════ -->
+<hr class="divider">
+
+<h2>P3 — 存储 & 日志安全</h2>
+<p><b>专家：Daniel Miessler</b></p>
+
+<div class="finding medium">
+  <span class="sev">F-09 · MEDIUM</span>
+  <div class="title">生产代码大量 console 输出 — 信息泄露</div>
+  <div class="loc">📁 reader.html · 16条 / sw.js · 3条 / build.mjs · 5条</div>
+  <div class="desc">
+    <p>reader.html 包含 <b>16 条</b> console 语句，泄露以下信息：</p>
+    <ul style="margin-left:20px;margin-top:8px;">
+      <li>故事文件加载路径（L1050, L1064）</li>
+      <li>用户阅读完成记录（L1263）</li>
+      <li>SW 注册状态和 scope（L1587, L1592, L1598, L1602）</li>
+      <li>PWA 安装行为（L1563, L1577）</li>
+      <li>触摸模式恢复状态（L1420, L1428, L1528, L1533）</li>
+    </ul>
+    <p>攻击者若通过 XSS 获得执行权限，可通过覆盖 <code>console.log</code> 钩子拦截这些信息，辅助进一步侦查。</p>
+  </div>
+  <div class="fix">// 推荐：条件编译或构建时移除 console
+// 方案 1 — 全局开关：
+const DEBUG = false;
+const log = DEBUG ? console.log.bind(console) : () => {};
+const warn = DEBUG ? console.warn.bind(console) : () => {};
+
+// 方案 2 — 构建脚本中 strip console（当前 build.mjs 未做此处理）
+// 在 build.mjs 中读取 reader.html 并 regex 移除 console.* 调用</div>
+</div>
+
+<div class="finding low">
+  <span class="sev">F-10 · LOW</span>
+  <div class="title">localStorage 无加密 — 可被同源任意脚本读写</div>
+  <div class="loc">📁 reader.html · 6 处 localStorage 读写</div>
+  <div class="desc">
+    存储内容仅为 UI 偏好，无敏感数据。但如果未来加入阅读进度同步、书签、用户备注等功能，应注意 localStorage 明文存储的风险。
+  </div>
+</div>
+
+<p><b>🟡 P3 结论：警告。</b>当前数据不敏感，风险可控。建议构建时自动 strip console 日志。</p>
+
+<!-- ══════════════════════ P4 ══════════════════════ -->
+<hr class="divider">
+
+<h2>P4 — 打包 & 发布 & 依赖审计</h2>
+<p><b>专家：Tavis Ormandy</b>（Google Project Zero · 二进制 & 打包安全）</p>
+
+<table>
+  <tr><th>检查项</th><th>结果</th><th>详情</th></tr>
+  <tr class="pass"><td>运行时依赖</td><td>✅ 零依赖</td><td>纯静态 HTML/CSS/JS，无 npm 运行时依赖</td></tr>
+  <tr class="pass"><td>CI/CD 权限</td><td>✅ 最小权限</td><td>contents: read / pages: write / id-token: write</td></tr>
+  <tr class="pass"><td>CI/CD 并发控制</td><td>✅ 已配置</td><td>concurrency group "pages" + cancel-in-progress</td></tr>
+  <tr class="pass"><td>Actions 版本</td><td>✅ 最新</td><td>checkout@v4 / setup-node@v4 / upload-pages-artifact@v3 / deploy-pages@v4</td></tr>
+  <tr class="pass"><td>SW 缓存策略</td><td>✅ 合理</td><td>Cache-First + Network-First 混合，10 条故事上限</td></tr>
+  <tr class="pass"><td>SW 版本管理</td><td>✅ 已有</td><td>CACHE_NAME = 'yinyang-v5'，激活时清理旧缓存</td></tr>
+  <tr class="warn"><td>SW skipWaiting</td><td>🟡 激进</td><td>新 SW 立即接管，若被投毒则无回滚窗口</td></tr>
+  <tr class="pass"><td>打包产物验证</td><td>✅ N/A</td><td>无二进制打包（无 Electron/PyInstaller/pkg）</td></tr>
+</table>
+
+<div class="finding low">
+  <span class="sev">F-11 · LOW</span>
+  <div class="title">Service Worker <code>self.skipWaiting()</code> — 无回滚窗口</div>
+  <div class="loc">📁 sw.js:23</div>
+  <div class="desc">
+    当前 SW 在 install 事件中立即调用 <code>self.skipWaiting()</code>，意味着新版本 SW 会立即接管所有页面，无需等待用户关闭所有标签页。
+    如果部署的 SW 存在 bug 或恶意代码，所有已打开的用户会立即受影响，无法通过关闭标签页回滚。
+  </div>
+  <div class="fix">// 移除此行以使用默认行为（等待所有标签页关闭后再激活新版 SW）：
+// self.skipWaiting();  // ← 删除或注释此行
+
+// 或添加手动更新 UI 提示，由用户主动触发更新</div>
+</div>
+
+<p><b>✅ P4 结论：通过。</b>项目依赖极简，CI/CD 配置安全。仅 SW skipWaiting 策略需评估。</p>
+
+<!-- ══════════════════════ SUMMARY ══════════════════════ -->
+<hr class="divider">
+
+<h2>📍 总体评价 & 优先级修复建议</h2>
+
+<h3>威胁模型</h3>
+<p>阴阳先生手记为纯静态 PWA，部署于 GitHub Pages（HTTPS），无后端、无数据库、无用户认证、无用户输入。攻击面天然较小。
+核心威胁来自：</p>
+<ol style="margin-left:20px;">
+  <li>JSON 数据文件被供应链攻击替换</li>
+  <li>Service Worker 缓存投毒</li>
+  <li>Google Fonts CDN 劫持</li>
+  <li>通过 XSS → 窃取或篡改 localStorage 数据</li>
+</ol>
+
+<h3>修复优先级</h3>
+
+<table>
+  <tr><th>优先级</th><th>编号</th><th>问题</th><th>影响</th><th>修复工时</th></tr>
+  <tr class="fail">
+    <td><b>P0</b></td>
+    <td>F-01</td>
+    <td>添加 CSP meta 标签</td>
+    <td>阻止 XSS 执行后的横向扩散</td>
+    <td>30 分钟</td>
+  </tr>
+  <tr class="fail">
+    <td><b>P0</b></td>
+    <td>F-02</td>
+    <td>添加 clickjacking 防御 (frame-ancestors)</td>
+    <td>防止页面被嵌入恶意 frame</td>
+    <td>与 F-01 合并</td>
+  </tr>
+  <tr class="fail">
+    <td><b>P1</b></td>
+    <td>F-03</td>
+    <td>添加 X-Content-Type-Options: nosniff</td>
+    <td>防止 MIME 类型嗅探攻击</td>
+    <td>5 分钟</td>
+  </tr>
+  <tr class="fail">
+    <td><b>P1</b></td>
+    <td>F-06</td>
+    <td>6 处 innerHTML 替换为 textContent</td>
+    <td>消除 DOM XSS 攻击面</td>
+    <td>2 小时</td>
+  </tr>
+  <tr class="fail">
+    <td><b>P2</b></td>
+    <td>F-09</td>
+    <td>构建时移除生产 console 日志</td>
+    <td>减少信息泄露面</td>
+    <td>1 小时</td>
+  </tr>
+  <tr class="fail">
+    <td><b>P2</b></td>
+    <td>F-04</td>
+    <td>Google Fonts 自托管</td>
+    <td>消除第三方依赖 + 用户 IP 泄露</td>
+    <td>1 小时</td>
+  </tr>
+  <tr class="fail">
+    <td><b>P3</b></td>
+    <td>F-11</td>
+    <td>评估 remove self.skipWaiting()</td>
+    <td>SW 投毒后允许用户回滚</td>
+    <td>15 分钟</td>
+  </tr>
+</table>
+
+<h3>快速安全自检对照</h3>
+<table>
+  <tr><th></th><th>检查项</th><th>状态</th></tr>
+  <tr class="pass"><td></td><td>API Key / Token 不在代码中硬编码</td><td>✅</td></tr>
+  <tr class="fail"><td></td><td>console=False（所有模式）</td><td>🔴 生产代码有 16 条</td></tr>
+  <tr class="fail"><td></td><td>CSP 无 unsafe-inline / unsafe-eval</td><td>🔴 CSP 完全缺失</td></tr>
+  <tr class="pass"><td></td><td>CORS allow_origins 无 *</td><td>✅ N/A（无跨域 API）</td></tr>
+  <tr class="pass"><td></td><td>无 except: pass 静默吞异常</td><td>✅ 异常均有处理或降级</td></tr>
+  <tr class="pass"><td></td><td>敏感数据落盘前已加密</td><td>✅ N/A（无敏感数据）</td></tr>
+  <tr class="pass"><td></td><td>加密密钥通过环境变量注入</td><td>✅ N/A</td></tr>
+  <tr class="pass"><td></td><td>打包产物在不安装运行时的机器上验证通过</td><td>✅ 纯静态 HTML</td></tr>
+</table>
+
+<hr class="divider">
+
+<p style="text-align:center;color:var(--text2);font-size:13px;">
+  审查依据：Luyi14-security-academy Skill · 三专家矩阵（Daniel Miessler / James Kettle / Tavis Ormandy）<br>
+  审查范围：d:\Desktop\SStroy · 全仓库 87 个文件 · 2026-07-03<br>
+  工具链：静态代码扫描 + Grep 模式匹配 + 手动代码审计<br>
+  报告类型：安全审查 · 不包含修复实施
+</p>
+
+</div>
+</body>
+</html>
