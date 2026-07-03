@@ -14,7 +14,8 @@ const assets = [
   'reader.html',
   'index.html',
   'manifest.json',
-  'sw.js'
+  'sw.js',
+  '.nojekyll'
 ];
 
 const dirs = [
