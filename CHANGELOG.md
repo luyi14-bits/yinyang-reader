@@ -1,5 +1,28 @@
 # 更新日志
 
+## [v0.5.0] — 2026-07-03
+
+### PWA 体验对齐天问
+- manifest.json：新增 `orientation: portrait` + `purpose: any maskable`
+- sw.js：简化 Cache-First 策略，版本号升至 v5
+- reader.html：新增 PWA 安装提示横幅（beforeinstallprompt 事件 + 安装/关闭按钮）
+- .nojekyll：跳过 GitHub Pages Jekyll 构建
+
+### 工程
+- 体验对标顶目天问：手机打开 → 点安装 → 桌面出现「阴阳」图标 → 摸鱼
+
+## [v0.4.0] — 2026-07-03
+
+### 协议
+- LICENSE 从 MIT 替换为 AGPL-3.0，所有源文件追加 SPDX 协议头
+
+### 部署
+- GitHub Actions 自动部署到 GitHub Pages
+- .github/ 标准化（CODEOWNERS / Issue Template / PR Template）
+
+### README
+- 对标高星项目重构，管线看板归入 .trae/specs/
+
 ## [v0.3.0] — 2026-07-03
 
 ### 新增
