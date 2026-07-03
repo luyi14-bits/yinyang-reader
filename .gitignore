@@ -1,0 +1,24 @@
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Office temporary files
+~$*.docx
+~$*.xlsx
+~$*.pptx
+
+# Build output
+dist/
+
+# Dependencies
+node_modules/

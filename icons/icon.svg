@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="64" fill="#1a1614"/>
+  <g transform="translate(256,256)">
+    <!-- Taiji circle -->
+    <circle r="140" fill="none" stroke="#c43a31" stroke-width="6"/>
+    <!-- S-curve divider -->
+    <path d="M0,-140 A70,70 0 0,0 0,0 A70,70 0 0,1 0,140" fill="#c43a31"/>
+    <path d="M0,-140 A70,70 0 0,1 0,0 A70,70 0 0,0 0,140" fill="#e8dcc8"/>
+    <!-- Dots -->
+    <circle r="22" fill="#1a1614" transform="translate(0,-70)"/>
+    <circle r="22" fill="#c43a31" transform="translate(0,70)"/>
+  </g>
+</svg>
