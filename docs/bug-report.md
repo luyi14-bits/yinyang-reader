@@ -214,3 +214,7 @@ function visibleEmails() {
 ---
 
 *—— 报告生成于 2026-07-03 · 铁三角测试专家组*
+
+---
+*SPDX-FileCopyrightText: 2026 阴阳先生手记*
+*SPDX-License-Identifier: AGPL-3.0-only*

@@ -32,3 +32,7 @@
 | 3.3 | 阅读位置保留 | 恢复后回到之前的滚动位置 | 手动测试 |
 | 3.4 | 页面标题切换 | 伪装时 title="Outlook 网页版"，恢复时="阴阳先生手记" | 查看 Tab |
 | 3.5 | sneakConfig 可配置 | 修改配置对象后发件人/主题/标题变化 | 代码检查 |
+
+---
+*SPDX-FileCopyrightText: 2026 阴阳先生手记*
+*SPDX-License-Identifier: AGPL-3.0-only*

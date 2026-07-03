@@ -51,3 +51,7 @@
 4. 师父出手 / 真相浮出（但不说尽）
 5. 结尾留白（一句话收）
 ```
+
+---
+*SPDX-FileCopyrightText: 2026 阴阳先生手记*
+*SPDX-License-Identifier: AGPL-3.0-only*

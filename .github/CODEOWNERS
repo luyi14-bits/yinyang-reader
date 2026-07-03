@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: 2026 阴阳先生手记
+# SPDX-License-Identifier: AGPL-3.0-only
+
+# Default owners for the entire repo
+* @luyi14-bits
+
+# Stories directory (content ownership)
+stories/ @luyi14-bits
+
+# Docs and specs
+docs/ @luyi14-bits
+.trae/ @luyi14-bits

@@ -44,3 +44,7 @@
 | Task 2: 随机推荐核心体验 | 6 | 1.5 |
 | Task 3: 视觉与交互优化 | 3 | 1.0 |
 | **合计** | **14** | **3.0** |
+
+---
+*SPDX-FileCopyrightText: 2026 阴阳先生手记*
+*SPDX-License-Identifier: AGPL-3.0-only*

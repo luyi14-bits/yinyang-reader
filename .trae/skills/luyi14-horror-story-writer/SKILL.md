@@ -294,3 +294,7 @@ description: "Writes short horror/ghost stories blending 故事会 oral traditio
 7. **有真实民俗细节吗**？（至少一个查证过的真实点，出马/堂口/扎纸/赶尸术语不能瞎编）
 
 确认完毕 → 直接下笔。
+
+---
+*SPDX-FileCopyrightText: 2026 阴阳先生手记*
+*SPDX-License-Identifier: AGPL-3.0-only*

@@ -28,3 +28,7 @@
 | 3.1 | 切换动画 < 300ms | 切换故事时无明显卡顿，过渡流畅 | 肉眼观察 / Performance 面板 |
 | 3.2 | 标签选中状态视觉区分 | 选中标签为朱砂红，未选中为金色边框 | 手动查看 |
 | 3.3 | 阅读完成埋点触发 | 滚动到故事 90% 位置时 console 输出完成事件 | DevTools Console |
+
+---
+*SPDX-FileCopyrightText: 2026 阴阳先生手记*
+*SPDX-License-Identifier: AGPL-3.0-only*

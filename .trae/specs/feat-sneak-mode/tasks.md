@@ -49,3 +49,7 @@
 | Task 2: Outlook 交互逻辑 | 5 | 1.0 |
 | Task 3: 伪装切换逻辑 | 5 | 0.5 |
 | **合计** | **18** | **3.0** |
+
+---
+*SPDX-FileCopyrightText: 2026 阴阳先生手记*
+*SPDX-License-Identifier: AGPL-3.0-only*

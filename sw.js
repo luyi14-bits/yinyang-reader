@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 阴阳先生手记
+// SPDX-License-Identifier: AGPL-3.0-only
+// This file is part of the 阴阳先生手记 project.
+
 const CACHE = 'yinyang-v3';
 const STATIC_CACHE = 'yinyang-static-v3';
 const STORY_CACHE = 'yinyang-stories-v3';

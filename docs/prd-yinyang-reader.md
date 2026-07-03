@@ -318,3 +318,7 @@ type Category =
 ---
 
 *— PRD v1.0 完成，可出站至 Luyi14-spec-pipeline —*
+
+---
+*SPDX-FileCopyrightText: 2026 阴阳先生手记*
+*SPDX-License-Identifier: AGPL-3.0-only*

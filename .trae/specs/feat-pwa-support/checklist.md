@@ -27,3 +27,7 @@
 | 3.2 | npm run build 成功 | 命令执行无错误，dist/ 目录生成 | 运行 `npm run build` |
 | 3.3 | 桌面端布局可用 | >768px 宽度下居中显示，内容可读 | 浏览器 resize 测试 |
 | 3.4 | .gitignore 包含 dist/ | `dist/`、`node_modules/` 已被忽略 | 检查 `.gitignore` |
+
+---
+*SPDX-FileCopyrightText: 2026 阴阳先生手记*
+*SPDX-License-Identifier: AGPL-3.0-only*

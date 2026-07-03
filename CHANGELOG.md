@@ -26,3 +26,7 @@
 ### 新增
 - 《纸人》：首篇志怪短篇。年轻学徒腊月回乡，桥头遇百年纸人，师父三枚铜钱镇祟。
 - 在线阅读器 reader.html（暗色模式 + 滑动翻页 + 日夜间切换）
+
+---
+*SPDX-FileCopyrightText: 2026 阴阳先生手记*
+*SPDX-License-Identifier: AGPL-3.0-only*

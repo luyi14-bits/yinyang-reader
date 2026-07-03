@@ -101,3 +101,7 @@ The system SHALL track story reading completion via scroll events.
 ## REMOVED Requirements
 
 无
+
+---
+*SPDX-FileCopyrightText: 2026 阴阳先生手记*
+*SPDX-License-Identifier: AGPL-3.0-only*

@@ -72,3 +72,7 @@ P0 feat-core-reader (3d)    P1 feat-pwa-support (2d)  P1 feat-sneak-mode (3.0d) 
 ---
 
 > 管线看板由 Luyi14-spec-pipeline 维护 · 状态变更请通知管线工程师
+
+---
+*SPDX-FileCopyrightText: 2026 阴阳先生手记*
+*SPDX-License-Identifier: AGPL-3.0-only*

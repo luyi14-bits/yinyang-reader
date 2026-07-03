@@ -6,6 +6,7 @@
   "display": "standalone",
   "background_color": "#1a1614",
   "theme_color": "#1a1614",
+  "license": "AGPL-3.0",
   "icons": [
     {
       "src": "/icons/icon.svg",

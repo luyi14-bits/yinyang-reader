@@ -37,3 +37,7 @@
 ## 归属
 
 本行为准则改编自 [Contributor Covenant](https://www.contributor-covenant.org) 2.1 版。
+
+---
+*SPDX-FileCopyrightText: 2026 阴阳先生手记*
+*SPDX-License-Identifier: AGPL-3.0-only*

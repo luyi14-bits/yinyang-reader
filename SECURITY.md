@@ -37,3 +37,7 @@
 
 - 无外部运行时依赖（纯静态 HTML/JS）
 - 构建脚本使用 Node.js 标准库，无需额外安装
+
+---
+*SPDX-FileCopyrightText: 2026 阴阳先生手记*
+*SPDX-License-Identifier: AGPL-3.0-only*

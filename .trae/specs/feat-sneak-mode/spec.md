@@ -117,3 +117,7 @@ The fake Outlook content SHALL be configurable via a `sneakConfig` object.
 
 - ~~SNK-01 (旧版): 伪装为 Excel 表格~~ → 替换为 Outlook 三栏布局
 - ~~SNK-04 (旧版): 伪文档内容可配置~~ → 替换为 SNK-06 (Outlook 内容可配置)
+
+---
+*SPDX-FileCopyrightText: 2026 阴阳先生手记*
+*SPDX-License-Identifier: AGPL-3.0-only*

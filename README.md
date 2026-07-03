@@ -127,4 +127,6 @@ PWA 支持：可添加到主屏幕离线阅读
 
 ---
 
-*—— 摸鱼快乐 🎉*
+*—— 摸鱼快乐 🎉  
+SPDX-FileCopyrightText: 2026 阴阳先生手记  
+SPDX-License-Identifier: AGPL-3.0-only*

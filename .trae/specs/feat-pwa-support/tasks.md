@@ -44,3 +44,7 @@
 | Task 2: Service Worker 缓存策略 | 5 | 1.0 |
 | Task 3: 构建配置与响应式完善 | 4 | 0.5 |
 | **合计** | **13** | **2.0** |
+
+---
+*SPDX-FileCopyrightText: 2026 阴阳先生手记*
+*SPDX-License-Identifier: AGPL-3.0-only*

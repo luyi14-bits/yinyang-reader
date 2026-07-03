@@ -97,3 +97,7 @@ The system SHALL support a build pipeline for automated deployment.
 ## REMOVED Requirements
 
 无
+
+---
+*SPDX-FileCopyrightText: 2026 阴阳先生手记*
+*SPDX-License-Identifier: AGPL-3.0-only*

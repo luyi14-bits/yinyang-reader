@@ -1,6 +1,7 @@
 {
   "name": "yinyang-reader",
   "version": "0.3.0",
+  "license": "AGPL-3.0",
   "private": true,
   "description": "阴阳先生手记 — 志怪短篇阅读器",
   "scripts": {

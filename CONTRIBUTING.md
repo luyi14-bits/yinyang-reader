@@ -37,3 +37,7 @@
 ## 📄 许可
 
 提交代码即视为同意 [LICENSE](LICENSE) 许可协议。
+
+---
+*SPDX-FileCopyrightText: 2026 阴阳先生手记*
+*SPDX-License-Identifier: AGPL-3.0-only*

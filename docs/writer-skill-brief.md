@@ -416,3 +416,7 @@
 ---
 
 *—— 秘书整理完毕 v2.0 · 2026-07-03 —*
+
+---
+*SPDX-FileCopyrightText: 2026 阴阳先生手记*
+*SPDX-License-Identifier: AGPL-3.0-only*

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 阴阳先生手记
+// SPDX-License-Identifier: AGPL-3.0-only
+// This file is part of the 阴阳先生手记 project.
+
 import { copyFileSync, mkdirSync, readdirSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
