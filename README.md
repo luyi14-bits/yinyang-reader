@@ -2,14 +2,17 @@
 
 # 阴阳先生手记
 
+**Original horror anthology in the style of traditional Chinese folklore storytelling**
+
 [![license](https://img.shields.io/badge/license-AGPL--3.0-blue.svg)](LICENSE)
 [![version](https://img.shields.io/github/v/release/luyi14-bits/yinyang-reader)](https://github.com/luyi14-bits/yinyang-reader/releases)
 [![pages](https://img.shields.io/badge/Pages-live-brightgreen)](https://luyi14-bits.github.io/yinyang-reader/)
 [![stories](https://img.shields.io/badge/stories-20-8A2BE2)](stories/INDEX.md)
+[![stars](https://img.shields.io/github/stars/luyi14-bits/yinyang-reader?style=social)](https://github.com/luyi14-bits/yinyang-reader/)
 
 志怪恐怖短篇集 · 故事会风格 · 每篇 5 分钟读完
 
-→ **[在线阅读](https://luyi14-bits.github.io/yinyang-reader/)** ←
+-> **[在线阅读](https://luyi14-bits.github.io/yinyang-reader/)** <-
 
 </div>
 
@@ -17,7 +20,7 @@
 
 ## 是什么
 
-《阴阳先生手记》是一部原创志怪恐怖短篇合集。每篇独立成章，500–2000 字，手机翻两页的量——专为上班摸鱼、通勤路上、睡前刷手机的场景设计。
+《阴阳先生手记》是一部原创志怪恐怖短篇合集。每篇独立成章，500-2000 字，手机翻两页的量——专为上班摸鱼、通勤路上、睡前刷手机的场景设计。
 
 写作上追求三件事：
 
@@ -31,9 +34,10 @@
 
 | 方式 | 说明 |
 |------|------|
-| **📱 在线阅读** | [luyi14-bits.github.io/yinyang-reader](https://luyi14-bits.github.io/yinyang-reader/) |
-| **📖 本地打开** | 直接双击项目根目录的 `reader.html` |
-| **🛠 构建运行** | `npm run build && npx serve dist/` |
+| **在线阅读** | [luyi14-bits.github.io/yinyang-reader](https://luyi14-bits.github.io/yinyang-reader/) |
+| **本地打开** | 直接双击项目根目录的 eader.html |
+| **构建运行** | 
+pm run build && npx serve dist/ |
 
 ---
 
@@ -52,26 +56,26 @@
 | 009 | [堂口](stories/009-堂口.md) | 出马 | | 019 | [镜子](stories/019-镜子.md) | 宾馆 |
 | 010 | [对门](stories/010-对门.md) | 居民楼 | | 020 | [邻居](stories/020-邻居.md) | 居民楼 |
 
-完整索引请见 [`stories/INDEX.md`](stories/INDEX.md)（含按题材分类）
+完整索引请见 [stories/INDEX.md](stories/INDEX.md)（含按题材分类）
 
 ---
 
 ## 项目结构
 
-```
+`
 yinyang-reader/
-├── stories/              # 📖 故事正文（MD + JSON）
-├── reader.html           # 📱 在线阅读器（单页应用）
-├── sw.js                 # ⚡ Service Worker（离线缓存）
-├── manifest.json         # 📲 PWA 安装清单
-├── scripts/build.mjs     # 🏗️ 构建脚本
-├── dist/                 # 📦 构建输出（npm run build）
-├── docs/                 # 📋 文档（PRD / 写法规范 / 简报）
-├── .trae/                # 🛠️ 工程 artifact
-│   ├── specs/            #   Spec 与管线看板
-│   └── skills/           #   写手 Skill
-└── .github/              # 🤝 社区规范（Issue/PR 模板 + CI）
-```
+  stories/              # 故事正文（MD + JSON）
+  reader.html           # 在线阅读器（单页应用）
+  sw.js                 # Service Worker（离线缓存）
+  manifest.json         # PWA 安装清单
+  scripts/build.mjs     # 构建脚本
+  dist/                 # 构建输出（npm run build）
+  docs/                 # 文档（PRD / 写法规范 / 简报）
+  .trae/                # 工程 artifact
+    specs/              #   Spec 与管线看板
+    skills/             #   写手 Skill
+  .github/              # 社区规范（Issue/PR 模板 + CI）
+`
 
 ---
 
@@ -79,7 +83,7 @@ yinyang-reader/
 
 如果你的目标是写一篇"让同事帮忙看一眼结果把手机抢过去读完了"的短篇——这个 Skill 能帮上忙：
 
-→ **[luyi14-horror-story-writer](.trae/skills/luyi14-horror-story-writer/SKILL.md)**
+-> **[luyi14-horror-story-writer](.trae/skills/luyi14-horror-story-writer/SKILL.md)**
 
 它内化了以下规则：
 
@@ -101,6 +105,6 @@ yinyang-reader/
 
 ## 协议
 
-[AGPL-3.0](LICENSE) © 2026 阴阳先生手记
+[AGPL-3.0](LICENSE) (c) 2026 阴阳先生手记
 
 所有故事内容与程序代码均以 AGPL-3.0 许可发布。
