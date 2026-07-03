@@ -4,12 +4,12 @@
 
 var CACHE_NAME = 'yinyang-v5';
 var PRECACHE_URLS = [
-  '/',
-  '/reader.html',
-  '/index.html',
-  '/manifest.json',
-  '/icons/icon.svg',
-  '/sw.js'
+  './',
+  './reader.html',
+  './index.html',
+  './manifest.json',
+  './icons/icon.svg',
+  './sw.js'
 ];
 
 self.addEventListener('install', function (event) {
